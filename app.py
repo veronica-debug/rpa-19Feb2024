@@ -2,7 +2,9 @@ from flask import Flask,request,render_template
 import replicate
 import os
 import time
+from openai import OpenAI
 
+model = OpenAI(api_key="sk-qx4zKKzHnYRc7k8LuXyKHXdQi0gf5BcisgXBVZcXc9t4K8E9", base_url="https://api.chatanywhere.tech/v1")
 app = Flask(__name__)
 os.environ["REPLICATE_API_TOKEN"]="r8_ct15bbEKjKiJNYKjmc9L0hSfFl5VJ931k5iAf"
 
@@ -36,6 +38,25 @@ def image_result():
     )
     time.sleep(10)
     return(render_template("image_result.html",r=r[0]))
+
+@app.route("/text_gpt",methods=["GET","POST"])
+def text_gpt():
+    return(render_template("text_gpt.html"))
+
+@app.route("/text_result",methods=["GET","POST"])
+def text_result():
+    q=input("question:")
+    r = model.chat.completions.create(
+        model="gpt-3.5-turbo", 
+        messages=[
+            {
+                "role": "user",
+                 "content": q
+            }
+        ],
+    )
+    time.sleep(5)
+    return(render_template("text_result.html",r=r.choices[0].message.content))
 
 @app.route("/end",methods=["GET","POST"])
 def end():
