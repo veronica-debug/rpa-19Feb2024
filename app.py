@@ -2,6 +2,7 @@ from flask import Flask,request,render_template
 import replicate
 import os
 import time
+from openai import OpenAI
 
 model = OpenAI(api_key="sk-qx4zKKzHnYRc7k8LuXyKHXdQi0gf5BcisgXBVZcXc9t4K8E9", base_url="https://api.chatanywhere.tech/v1")
 os.environ["REPLICATE_API_TOKEN"]="r8_2idkAutIh1jCAVVRIbEDgqt9zNUdbhG2cS1AF"
